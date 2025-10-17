@@ -1,6 +1,9 @@
 {
   "name": "fb3pfb_nhanes",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
+  },
   "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "customizations": {
     "vscode": {
@@ -8,10 +11,13 @@
         "ms-python.python",
         "ms-toolsai.jupyter",
         "charliermarsh.ruff"
-      ]
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "editor.formatOnSave": true
+      }
     }
   },
   "forwardPorts": [8888],
   "remoteUser": "vscode"
 }
-
