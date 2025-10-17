@@ -1,0 +1,18 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "fb3pfb_nhanes",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff"
+      ]
+    }
+  },
+  "forwardPorts": [8888],
+  "remoteUser": "vscode"
+}
+
