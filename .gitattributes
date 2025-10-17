@@ -1,0 +1,2 @@
+*.ipynb !text !filter !merge !diff
+data/raw/** !text !filter !merge !diff
