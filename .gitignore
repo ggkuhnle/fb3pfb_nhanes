@@ -13,3 +13,12 @@ __pycache__/
 .DS_Store
 .vscode/
 
+
+# Keep data folder in repo, but don't commit derived stuff
+!data/
+!data/raw/
+!data/raw/**        # allow raw files (tracked by LFS below)
+data/processed/
+*.parquet
+*.feather
+
