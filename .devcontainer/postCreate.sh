@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-# Python base: upgrade & install project deps
-python -m pip install -U pip wheel
-if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+# --- System deps that sometimes fail without sudo if done in features ---
+export DEBIAN_FRONTEND=noninteractive
+sudo rm -rf /var/lib/apt/lists/* || true
+sudo apt-get update
+sudo apt-get install -y git-lfs
 
-# Register a Jupyter kernel INSIDE the container (student does nothing)
-python -m pip install -U ipykernel
+# --- Python deps & kernel ---
+python -m pip install -U pip wheel ipykernel
+if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 python -m ipykernel install --user --name fb3pfb_nhanes --display-name "Python (fb3pfb_nhanes)"
 
-# LFS is provided by the devcontainer feature; just init & pull
+# --- Pull LFS data inside the container (student doesn't need LFS on host) ---
 if [ -d .git ]; then
   git lfs install
   git lfs pull || true
 fi
 
+echo "postCreate done."
