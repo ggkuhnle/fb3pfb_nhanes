@@ -1,9 +1,13 @@
-# NHANES raw files
+\# filter=lfs diff=lfs merge=lfs -text
 data/raw/* filter=lfs diff=lfs merge=lfs -text
-
 # Or, if you prefer by extension:
 *.XPT filter=lfs diff=lfs merge=lfs -text
 *.xpt filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
+safe filter=lfs diff=lfs merge=lfs -text
+even filter=lfs diff=lfs merge=lfs -text
+if filter=lfs diff=lfs merge=lfs -text
+already filter=lfs diff=lfs merge=lfs -text
+in filter=lfs diff=lfs merge=lfs -text
 *.ipynb !text !filter !merge !diff
 data/raw/** !text !filter !merge !diff
