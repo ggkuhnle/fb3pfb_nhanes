@@ -8,11 +8,6 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data (keep real data out of git)
-data/
-*.csv
-*.tsv
-*.parquet
 
 # OS/Editor
 .DS_Store
