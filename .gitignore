@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (keep real data out of git)
+data/
+*.csv
+*.tsv
+*.parquet
+
+# OS/Editor
+.DS_Store
+.vscode/
+
