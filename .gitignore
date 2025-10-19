@@ -14,10 +14,8 @@ __pycache__/
 
 
 # Keep data folder in repo, but don't commit derived stuff
-!data/
-!data/raw/
-!data/raw/**        # allow raw files (tracked by LFS below)
+data/
+data/raw/
+data/raw/**        # allow raw files (tracked by LFS below)
 data/processed/
-*.parquet
-*.feather
 
