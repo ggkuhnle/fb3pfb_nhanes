@@ -1,109 +1,150 @@
-<<<<<<< HEAD
-# fb3pfb_nhanes
+# FB3PFB — NHANES (Colab-first)
 
+A small teaching repo for loading and exploring **NHANES** data in Python.  
+This project is designed to run **in Google Colab** so students don’t need to install anything locally.
 
+## ☁️ Run in Google Colab
 
-## Getting started
+**Open the starter notebook:**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/00_load_nhanes.ipynb)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+> 🔒 **Private repo?** Colab will ask you to authorise GitHub. That’s expected.
 
-## Add your files
+---
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 📦 Clone this repo from Colab (read/write)
 
+> Use this when you want to **pull + push** between Colab and GitHub (recommended for collaboration).
+
+1) Create a **GitHub Personal Access Token** (classic) with scope `repo`.  
+   GitHub → avatar → **Settings → Developer settings → Personal access tokens → Tokens (classic)** → *Generate new token*.
+
+2) In a new Colab notebook, run this **one cell** (paste your token when prompted):
+
+```python
+from getpass import getpass
+TOKEN = getpass("GitHub token (repo scope): ")
+
+REPO = "ggkuhnle/fb3pfb_nhanes"
+
+# Clone with token (avoids interactive prompts)
+!git clone https://{TOKEN}:x-oauth-basic@github.com/{REPO}.git
+%cd fb3pfb_nhanes
+
+# Optional: identify yourself for commits made from Colab
+!git config user.name  "Your Name"
+!git config user.email "your.email@example.com"
+
+# If the repo uses Git LFS for large files (e.g., NHANES raw):
+!apt-get -qq update && apt-get -qq install -y git-lfs
+!git lfs install && git lfs pull
 ```
-cd existing_repo
-git remote add origin https://gitlab.act.reading.ac.uk/xb901875/fb3pfb_nhanes.git
-git branch -M main
-git push -uf origin main
+
+3) Open the main notebook inside this repo:
+```
+notebooks/00_load_nhanes.ipynb
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab.act.reading.ac.uk/xb901875/fb3pfb_nhanes/-/settings/integrations)
+## ▶️ Typical Colab workflow
 
-## Collaborate with your team
+At the **start of each session**:
+```python
+%cd /content/fb3pfb_nhanes
+!git fetch origin
+!git switch main        # or your feature branch
+!git pull --rebase
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+Make changes (edit notebook/code), then **commit & push**:
 
-## Test and Deploy
+```python
+# first time on a new branch:
+!git checkout -b feat/colab-session
 
-Use the built-in continuous integration in GitLab.
+# every save
+!git add -A
+!git commit -m "Work in Colab: update analysis"
+!git push -u origin HEAD
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+> Prefer branches + Pull Requests for feedback. Avoid committing to `main` directly.
 
-***
+---
 
-# Editing this README
+## 📁 Data
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- If you store **raw NHANES files** in the repo, use **Git LFS** so the repo stays fast.
+  - One-time (outside Colab): `git lfs install && git lfs track "data/raw/*" && git add .gitattributes && git commit -m "Enable LFS"`
+  - Push existing LFS content to GitHub once: `git lfs push --all origin`
+  - In Colab, after cloning: `git lfs install && git lfs pull`
+- Keep derived outputs out of Git (already ignored below).
 
-## Suggestions for a good README
+**.gitignore (excerpt):**
+```
+__pycache__/
+.ipynb_checkpoints/
+data/processed/
+*.parquet
+*.feather
+.DS_Store
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## 🧪 Starter notebook
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+The notebook `notebooks/00_load_nhanes.ipynb` demonstrates:
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- Loading NHANES XPORT (`.XPT`) or CSV from `data/raw/`
+- Quick checks (shape, head, missingness)
+- Saving fast copies to `data/processed/`
+- Tiny examples: Table 1 (age & sex), plots, simple regression
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+> Columns are lower-cased (e.g., `SEQN` → `seqn`).
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## 🙋 For students (copy/paste)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Open Colab → **New Notebook** → run this cell:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```python
+from getpass import getpass
+TOKEN = getpass("GitHub token (repo scope): ")
+!git clone https://{TOKEN}:x-oauth-basic@github.com/ggkuhnle/fb3pfb_nhanes.git
+%cd fb3pfb_nhanes
+!git config user.name  "Student Name"
+!git config user.email "student@example.com"
+!apt-get -qq update && apt-get -qq install -y git-lfs && git lfs install && git lfs pull
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+# Work on a branch
+!git checkout -b feat/student-work
+# (Open notebooks/00_load_nhanes.ipynb, run cells)
+# When ready:
+# !git add -A && git commit -m "My changes" && git push -u origin feat/student-work
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 🛟 Troubleshooting
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- **Colab asks for username/password**: you likely cloned with HTTPS *without* the token. Use the cell above with `https://{TOKEN}:x-oauth-basic@github.com/...`.
+- **LFS files look tiny (pointer text)**: run `git lfs install && git lfs pull`.
+- **Merge conflicts**: run `!git pull --rebase`. If conflict remains, push your branch and resolve in GitHub’s web editor (Pull Request).
+- **Notebook giant diffs**: that’s normal. Later we can introduce Jupytext/nbstripout; for now, keep commits focused.
+
+---
+
+## ⚠️ Notes
+
+- This simple setup is **not** survey-design aware (NHANES weights/strata/PSUs). For formal inference we’ll add survey methods later.
+- Do not put sensitive data in a public repo. Keep this repo **private** or only store non-sensitive subsets.
+
+--- 
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-=======
-# FB3PFB NHANES
-
-Collaborative repo for finalist project.  
-Structure:
-- `src/fb3pfb_nhanes/` – Python package code
-- `notebooks/` – Jupyter notebooks (exploration, analysis)
-- `tests/` – unit tests (pytest)
-
-## Quick start
-1) Create a virtual environment
-2) `pip install -r requirements.txt`
-3) Start coding in `src/` or `notebooks/`
-
->>>>>>> d8e4ec2 (Scaffold)
+MIT (or your preferred license)
