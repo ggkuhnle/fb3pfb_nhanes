@@ -1,6 +1,5 @@
 {
   "python.defaultInterpreterPath": "/usr/local/bin/python",
-  "jupyter.interactiveWindowMode": "perFile",
-  "jupyter.askForKernelRestart": false
+  "jupyter.askForKernelRestart": false,
+  "jupyter.interactiveWindow.creationMode": "perFile"
 }
-
