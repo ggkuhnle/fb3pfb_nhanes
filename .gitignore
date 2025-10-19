@@ -1,20 +1,10 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-.env
-
-# Jupyter
-.ipynb_checkpoints/
-
-
-# OS/Editor
-.DS_Store
-
-
-# Keep data folder in repo, but don't commit derived stuff
-data/
+# Data (keep raw/processed out of Git)
 data/raw/
 data/processed/
 
+# Notebook/Python cruft
+.ipynb_checkpoints/
+__pycache__/
+
+# OS/editor
+.DS_Store
