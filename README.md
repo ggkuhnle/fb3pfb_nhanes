@@ -1,88 +1,68 @@
-# FB3PFB — NHANES (Colab-first)
+# FB3PFB — NHANES (Colab-first, GitHub as source of truth)
 
-A small teaching repo for loading and exploring **NHANES** data in Python.  
-This project is designed to run **in Google Colab** so students don’t need to install anything locally.
+This repo supports a **minimal-friction teaching setup**:
 
-## ☁️ Run in Google Colab
+- **You (maintainer)**: work locally on your Mac (VS Code optional), then **push to GitHub**.
+- **Student**: opens the notebook via a **Colab badge**, runs it in the browser (no installs), and **saves changes back to GitHub** via Colab’s menu.
+- **Data**: downloaded directly from **CDC** during the notebook run (no Google Drive, no Git LFS required to get started).
 
-**Open the starter notebook:**
+---
+
+## ☁️ Run the notebook in Google Colab
+
+Click to open the starter notebook in Colab:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/00_load_nhanes.ipynb)
 
-> 🔒 **Private repo?** Colab will ask you to authorise GitHub. That’s expected.
+> 🔒 If this repository is private, Colab will ask the student to **authorize GitHub** the first time. That is expected.
 
 ---
 
-## 📦 Clone this repo from Colab (read/write)
+## 🔄 How we work together
 
-> Use this when you want to **pull + push** between Colab and GitHub (recommended for collaboration).
+### You (maintainer, local)
+```bash
+# pull latest
+git pull --rebase
 
-1) Create a **GitHub Personal Access Token** (classic) with scope `repo`.  
-   GitHub → avatar → **Settings → Developer settings → Personal access tokens → Tokens (classic)** → *Generate new token*.
+# do your edits locally (code/notebooks)
 
-2) In a new Colab notebook, run this **one cell** (paste your token when prompted):
+# commit & push
+git add -A
+git commit -m "Update analysis / notes"
+git push
 
-```python
-from getpass import getpass
-TOKEN = getpass("GitHub token (repo scope): ")
-
-REPO = "ggkuhnle/fb3pfb_nhanes"
-
-# Clone with token (avoids interactive prompts)
-!git clone https://{TOKEN}:x-oauth-basic@github.com/{REPO}.git
-%cd fb3pfb_nhanes
-
-# Optional: identify yourself for commits made from Colab
-!git config user.name  "Your Name"
-!git config user.email "your.email@example.com"
-
-# If the repo uses Git LFS for large files (e.g., NHANES raw):
-!apt-get -qq update && apt-get -qq install -y git-lfs
-!git lfs install && git lfs pull
+# (recommended) use branches & PRs
+git checkout -b feat/analysis-step1
+git push -u origin feat/analysis-step1
+# then open a Pull Request to main
 ```
 
-3) Open the main notebook inside this repo:
-```
-notebooks/00_load_nhanes.ipynb
-```
+### Student (Colab, zero installs)
+1. Click the **Colab badge** above.
+2. Press **Runtime → Run all**.  
+   The notebook **auto-downloads NHANES XPTs from CDC** into the Colab VM and loads them.
+3. To share changes back:
+   - **File → Save a copy in GitHub…** (authorize GitHub once) → pick this repo and a **new branch** (e.g., `feat/student-work`), or
+   - (optional) use a tiny git flow inside Colab:
+     ```python
+     !git checkout -b feat/student-work
+     !git add -A
+     !git commit -m "Student changes"
+     !git push -u origin feat/student-work
+     ```
+4. Open a **Pull Request** on GitHub for feedback.
 
 ---
 
-## ▶️ Typical Colab workflow
+## 📁 Data policy (simple)
 
-At the **start of each session**:
-```python
-%cd /content/fb3pfb_nhanes
-!git fetch origin
-!git switch main        # or your feature branch
-!git pull --rebase
-```
+- The teaching notebook **downloads public NHANES files** from CDC each session (e.g., `DEMO_J.xpt`, `HDL_J.xpt`, `TRIGLY_J.xpt`).  
+  No Google Drive or LFS is required to run.
+- Keep **derived outputs** (e.g., `data/processed/`) out of Git using `.gitignore` (already set up below).
+- If you later want to version large raw files in the repo, consider **Git LFS** as an advanced step.
 
-Make changes (edit notebook/code), then **commit & push**:
-
-```python
-# first time on a new branch:
-!git checkout -b feat/colab-session
-
-# every save
-!git add -A
-!git commit -m "Work in Colab: update analysis"
-!git push -u origin HEAD
-```
-
-> Prefer branches + Pull Requests for feedback. Avoid committing to `main` directly.
-
----
-
-## 📁 Data
-
-- If you store **raw NHANES files** in the repo, use **Git LFS** so the repo stays fast.
-  - One-time (outside Colab): `git lfs install && git lfs track "data/raw/*" && git add .gitattributes && git commit -m "Enable LFS"`
-  - Push existing LFS content to GitHub once: `git lfs push --all origin`
-  - In Colab, after cloning: `git lfs install && git lfs pull`
-- Keep derived outputs out of Git (already ignored below).
-
-**.gitignore (excerpt):**
+**`.gitignore` (excerpt):**
 ```
 __pycache__/
 .ipynb_checkpoints/
@@ -94,57 +74,44 @@ data/processed/
 
 ---
 
-## 🧪 Starter notebook
+## 📓 Notebook contents (overview)
 
-The notebook `notebooks/00_load_nhanes.ipynb` demonstrates:
-
-- Loading NHANES XPORT (`.XPT`) or CSV from `data/raw/`
-- Quick checks (shape, head, missingness)
-- Saving fast copies to `data/processed/`
-- Tiny examples: Table 1 (age & sex), plots, simple regression
-
-> Columns are lower-cased (e.g., `SEQN` → `seqn`).
+- Detects Colab and sets paths (`/content/data/raw`, `/content/data/processed`).
+- **Downloads** selected NHANES XPORT files directly from **CDC** (no Drive).
+- Loads **all** `.XPT/.CSV` in `data/raw/`, exposes common tables:
+  - `DEMO_*` → `df_demo`
+  - `HDL_*`  → `df_hdl`
+  - `TRIGLY_*` → `df_trig`
+- Gentle steps: quick **Table 1** (age/sex), **t-test**, simple **plots**, and a **regression**.
+- Columns are lower-cased (`SEQN → seqn`) for easy merges.
 
 ---
 
-## 🙋 For students (copy/paste)
+## 🧑‍🏫 Suggested learning path (scaffolded)
 
-Open Colab → **New Notebook** → run this cell:
-
-```python
-from getpass import getpass
-TOKEN = getpass("GitHub token (repo scope): ")
-!git clone https://{TOKEN}:x-oauth-basic@github.com/ggkuhnle/fb3pfb_nhanes.git
-%cd fb3pfb_nhanes
-!git config user.name  "Student Name"
-!git config user.email "student@example.com"
-!apt-get -qq update && apt-get -qq install -y git-lfs && git lfs install && git lfs pull
-
-# Work on a branch
-!git checkout -b feat/student-work
-# (Open notebooks/00_load_nhanes.ipynb, run cells)
-# When ready:
-# !git add -A && git commit -m "My changes" && git push -u origin feat/student-work
-```
+1. **Week 1**: Run in Colab, load data, summarize (Table 1), one plot, one test.  
+   Save to GitHub via **File → Save a copy in GitHub**.
+2. **Week 2**: Branches & Pull Requests (still Colab). Add a figure; submit a PR.
+3. **Week 3 (optional)**: Try local VS Code (venv) or Codespaces—only if useful.
 
 ---
 
 ## 🛟 Troubleshooting
 
-- **Colab asks for username/password**: you likely cloned with HTTPS *without* the token. Use the cell above with `https://{TOKEN}:x-oauth-basic@github.com/...`.
-- **LFS files look tiny (pointer text)**: run `git lfs install && git lfs pull`.
-- **Merge conflicts**: run `!git pull --rebase`. If conflict remains, push your branch and resolve in GitHub’s web editor (Pull Request).
-- **Notebook giant diffs**: that’s normal. Later we can introduce Jupytext/nbstripout; for now, keep commits focused.
+- **Colab asks for username/password**: normal when authorizing GitHub. Approve the OAuth popup.
+- **Notebook can’t find files**: the notebook auto-downloads from CDC; rerun the “download” cell or click **Runtime → Run all**.
+- **Merge conflicts on notebooks**: push a new branch and resolve in GitHub’s web editor (PR). Keep commits focused.
+- **Private repo access**: make sure the student is a repo collaborator (GitHub → Settings → Collaborators).
 
 ---
 
-## ⚠️ Notes
+## 🔐 Notes
 
-- This simple setup is **not** survey-design aware (NHANES weights/strata/PSUs). For formal inference we’ll add survey methods later.
-- Do not put sensitive data in a public repo. Keep this repo **private** or only store non-sensitive subsets.
+- This is an **introductory** workflow; it does not apply NHANES **survey design** (weights/strata/PSUs) for inference. We’ll add survey-aware methods later when needed.
+- Keep the repo **private** (or store only non-sensitive artifacts) if required by your policies.
 
---- 
+---
 
 ## License
 
-MIT (or your preferred license)
+MIT (or your chosen license)
