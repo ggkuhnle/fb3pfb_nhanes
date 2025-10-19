@@ -1,9 +1,0 @@
-[project]
-name = "fb3pfb_nhanes"
-version = "0.1.0"
-description = "NHANES Analysis"
-requires-python = ">=3.10"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-
