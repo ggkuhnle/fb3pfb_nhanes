@@ -1,68 +1,116 @@
-# FB3PFB — NHANES (Colab-first, GitHub as source of truth)
+# FB3PFB — NHANES project (Introduction)
 
-This repo supports a **minimal-friction teaching setup**:
 
-- **You (maintainer)**: work locally on your Mac (VS Code optional), then **push to GitHub**.
-- **Student**: opens the notebook via a **Colab badge**, runs it in the browser (no installs), and **saves changes back to GitHub** via Colab’s menu.
-- **Data**: downloaded directly from **CDC** during the notebook run (no Google Drive, no Git LFS required to get started).
+> For more information on git and Python, see **https://github.com/ggkuhnle/data-analysis-projects**.
+
 
 ---
 
-## ☁️ Run the notebook in Google Colab
+A step-by-step starter for analysing NHANES in **Google Colab** (no installs) or locally (VS Code/Jupyter). The main notebook fetches DEMO_J, HDL_J, TRIGLY_J directly from the CDC, merges, and walks through summaries, plots, a Welch t-test, and a tiny OLS model.
 
-Click to open the starter notebook in Colab:
+---
+
+## ☁️ Run in Google Colab 
+
+Open the starter notebook in Colab:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/00_load_nhanes.ipynb)
 
-> 🔒 If this repository is private, Colab will ask the student to **authorize GitHub** the first time. That is expected.
+### Important: Colab does **not** save your work by default
+- Colab runs in a temporary VM. If you just close the tab, **changes can be lost**.
+- To keep your work, do one of the following **before you finish**:
+  1) **File → Save a copy in GitHub…**  
+     - Authorise GitHub when prompted  
+     - Choose this repository and put your changes on a **new branch** (e.g. `feat/student-work`)  
+     - Open a Pull Request on GitHub to share back
+  2) **File → Save a copy in Drive** (keeps a personal copy in your Google Drive)
+  3) **Download** your notebook: **File → Download → .ipynb** (and commit it later)
+
+### How to “Run All” in Colab
+1. Open the notebook via the badge above  
+2. **Runtime → Run all**  
+   - The notebook will **auto-download** NHANES XPT files into the Colab VM and run the analysis
 
 ---
 
-## 🔄 How we work together
+## 👩‍💻 Working locally on macOS (VS Code/Jupyter)
 
-### You (maintainer, local)
+If you prefer local editing (or you’re the maintainer):
+
+### One-time setup
 ```bash
-# pull latest
-git pull --rebase
+# 1) Install Homebrew if you don’t have it: https://brew.sh
+# 2) Install Python if needed (example for Python 3.11):
+brew install python@3.11
 
-# do your edits locally (code/notebooks)
-
-# commit & push
-git add -A
-git commit -m "Update analysis / notes"
-git push
-
-# (recommended) use branches & PRs
-git checkout -b feat/analysis-step1
-git push -u origin feat/analysis-step1
-# then open a Pull Request to main
+# 3) (Optional) Install Git if needed
+brew install git
 ```
 
-### Student (Colab, zero installs)
-1. Click the **Colab badge** above.
-2. Press **Runtime → Run all**.  
-   The notebook **auto-downloads NHANES XPTs from CDC** into the Colab VM and loads them.
-3. To share changes back:
-   - **File → Save a copy in GitHub…** (authorize GitHub once) → pick this repo and a **new branch** (e.g., `feat/student-work`), or
-   - (optional) use a tiny git flow inside Colab:
-     ```python
-     !git checkout -b feat/student-work
-     !git add -A
-     !git commit -m "Student changes"
-     !git push -u origin feat/student-work
-     ```
-4. Open a **Pull Request** on GitHub for feedback.
+### Get the repository (clone)
+```bash
+# SSH (recommended once you’ve set up an SSH key with GitHub)
+git clone git@github.com:ggkuhnle/fb3pfb_nhanes.git
+
+# OR HTTPS (will ask for GitHub login/Token)
+# git clone https://github.com/ggkuhnle/fb3pfb_nhanes.git
+```
+
+### Create a virtual environment and install dependencies
+```bash
+cd fb3pfb_nhanes
+
+# Create & activate a venv (macOS default might be python3)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install Python packages
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Open the notebook locally
+- VS Code: **File → Open Folder…** → select the repo → open `notebooks/00_load_nhanes.ipynb`  
+- Or Jupyter: `python -m notebook` (then navigate to `notebooks/00_load_nhanes.ipynb`)
+
+> The notebook will download the NHANES files into `data/raw` (inside this repo) when run.
 
 ---
 
-## 📁 Data policy (simple)
+## 🔄 Typical Git workflow (maintainer / contributor)
 
-- The teaching notebook **downloads public NHANES files** from CDC each session (e.g., `DEMO_J.xpt`, `HDL_J.xpt`, `TRIGLY_J.xpt`).  
-  No Google Drive or LFS is required to run.
-- Keep **derived outputs** (e.g., `data/processed/`) out of Git using `.gitignore` (already set up below).
-- If you later want to version large raw files in the repo, consider **Git LFS** as an advanced step.
+### Pull latest changes
+```bash
+git pull --rebase
+```
 
-**`.gitignore` (excerpt):**
+### Create a feature branch
+```bash
+git checkout -b feat/analysis-step1
+```
+
+### Commit & push your work
+```bash
+git add -A
+git commit -m "Add first pass at HDL analysis"
+git push -u origin feat/analysis-step1
+```
+
+### Open a Pull Request (on GitHub)
+- Compare your branch against `main`
+- Ask for review
+- Merge when approved
+---
+
+## 📁 Data layout and policy
+
+- The notebook **downloads public NHANES** files (e.g., `DEMO_J.XPT`, `HDL_J.XPT`, `TRIGLY_J.XPT`) at runtime.  
+  No Google Drive and no Git LFS required to run.
+- **Raw downloads** live in: `data/raw/`  
+- **Outputs** (student results, derived tables) should go in: `data/processed/`  
+- Keep large/derived files **out of Git** (already in `.gitignore`).
+
+**`.gitignore` (excerpt)**
 ```
 __pycache__/
 .ipynb_checkpoints/
@@ -72,46 +120,17 @@ data/processed/
 .DS_Store
 ```
 
----
 
-## 📓 Notebook contents (overview)
-
-- Detects Colab and sets paths (`/content/data/raw`, `/content/data/processed`).
-- **Downloads** selected NHANES XPORT files directly from **CDC** (no Drive).
-- Loads **all** `.XPT/.CSV` in `data/raw/`, exposes common tables:
-  - `DEMO_*` → `df_demo`
-  - `HDL_*`  → `df_hdl`
-  - `TRIGLY_*` → `df_trig`
-- Gentle steps: quick **Table 1** (age/sex), **t-test**, simple **plots**, and a **regression**.
-- Columns are lower-cased (`SEQN → seqn`) for easy merges.
 
 ---
 
-## 🧑‍🏫 Suggested learning path (scaffolded)
+## ⚠️ Note on inference
 
-1. **Week 1**: Run in Colab, load data, summarize (Table 1), one plot, one test.  
-   Save to GitHub via **File → Save a copy in GitHub**.
-2. **Week 2**: Branches & Pull Requests (still Colab). Add a figure; submit a PR.
-3. **Week 3 (optional)**: Try local VS Code (venv) or Codespaces—only if useful.
-
----
-
-## 🛟 Troubleshooting
-
-- **Colab asks for username/password**: normal when authorizing GitHub. Approve the OAuth popup.
-- **Notebook can’t find files**: the notebook auto-downloads from CDC; rerun the “download” cell or click **Runtime → Run all**.
-- **Merge conflicts on notebooks**: push a new branch and resolve in GitHub’s web editor (PR). Keep commits focused.
-- **Private repo access**: make sure the student is a repo collaborator (GitHub → Settings → Collaborators).
-
----
-
-## 🔐 Notes
-
-- This is an **introductory** workflow; it does not apply NHANES **survey design** (weights/strata/PSUs) for inference. We’ll add survey-aware methods later when needed.
-- Keep the repo **private** (or store only non-sensitive artifacts) if required by your policies.
+This starter is **unweighted** and does not apply NHANES survey design.  
+For population-level inference, use survey-weighted methods (strata/PSU/weights).
 
 ---
 
 ## License
 
-MIT (or your chosen license)
+MIT 
