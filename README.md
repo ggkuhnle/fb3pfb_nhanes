@@ -43,7 +43,7 @@ If you prefer local editing (or you’re the maintainer):
 # 2) Install Python if needed (example for Python 3.11):
 brew install python@3.11
 
-# 3) (Optional) Install Git if needed
+# 3) Install Git 
 brew install git
 ```
 
@@ -107,19 +107,8 @@ git push -u origin feat/analysis-step1
 - The notebook **downloads public NHANES** files (e.g., `DEMO_J.XPT`, `HDL_J.XPT`, `TRIGLY_J.XPT`) at runtime.  
   No Google Drive and no Git LFS required to run.
 - **Raw downloads** live in: `data/raw/`  
-- **Outputs** (student results, derived tables) should go in: `data/processed/`  
+- **Outputs** should go in: `data/processed/`  
 - Keep large/derived files **out of Git** (already in `.gitignore`).
-
-**`.gitignore` (excerpt)**
-```
-__pycache__/
-.ipynb_checkpoints/
-data/processed/
-*.parquet
-*.feather
-.DS_Store
-```
-
 
 
 ---
