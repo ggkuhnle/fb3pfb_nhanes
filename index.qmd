@@ -40,26 +40,13 @@ Fermented dairy products differ from non-fermented dairy in their content of liv
 | `BMX_J.xpt` | Body measurements (BMI, waist circumference) | CDC NHANES 2017–2018 |
 | `2017-2018 FNDDS At A Glance - Foods and Beverages.xlsx` | Food classification lookup (dairy / fermented dairy flags) | USDA FNDDS 2017–2018 |
 
----
-
-## Analysis notebooks
-
-### `notebooks/00_load_nhanes.ipynb` — Starter notebook
-
-An introductory notebook that downloads NHANES files directly from the CDC at runtime (no local files needed). Covers:
-
-- Merging demographic, HDL cholesterol, and triglyceride files
-- Descriptive summaries and visualisations
-- Welch t-test comparing HDL between groups
-- Simple ordinary least squares (OLS) regression
-
-Suitable for running in **Google Colab** without any local setup.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/00_load_nhanes.ipynb)
+NHANES data files must be downloaded separately from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017) and placed in `data/raw/`. They are excluded from this repository.
 
 ---
 
-### `analysis/01_dietary_data_preparation.ipynb` — Dietary data preparation
+## Analysis notebook
+
+### `notebooks/01_dietary_data_preparation.ipynb` — Dietary data preparation
 
 The main analytical notebook for the fermented dairy project. Processes the two 24-hour dietary recall files to produce a participant-level dataset of average daily dairy and fermented dairy intake.
 
@@ -88,6 +75,7 @@ One row per participant, containing average daily nutrient intakes and the two k
 
 - Python 3.10+ (managed via pyenv or your system Python)
 - Git
+- NHANES XPT files downloaded to `data/raw/` (see Data sources above)
 
 ### Setup
 
@@ -108,11 +96,7 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Open `notebooks/00_load_nhanes.ipynb` for the starter, or `analysis/01_dietary_data_preparation.ipynb` for the dietary preparation workflow.
-
-### Data files
-
-The dietary analysis requires NHANES XPT files in `data/raw/`. Download them from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017). The food classification spreadsheet should be placed in `data/processed/`.
+Open `notebooks/01_dietary_data_preparation.ipynb`.
 
 ---
 

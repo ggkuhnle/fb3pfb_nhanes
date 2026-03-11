@@ -11,9 +11,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: notebooks/00_load_nhanes.ipynb
-        text: Starter Notebook
-      - href: analysis/01_dietary_data_preparation.ipynb
+      - href: notebooks/01_dietary_data_preparation.ipynb
         text: Dietary Data Preparation
 
 format:
