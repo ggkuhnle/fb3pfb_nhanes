@@ -17,3 +17,5 @@ _site/
 
 # Claude
 .claude
+
+/.quarto/
