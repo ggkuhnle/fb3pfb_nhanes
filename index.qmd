@@ -32,15 +32,15 @@ Fermented dairy products differ from non-fermented dairy in their content of liv
 
 | File | Content | Source |
 |------|---------|--------|
-| `DR1IFF_J.xpt` / `DR2IFF_J.xpt` | Individual foods — 24-hour dietary recalls (Days 1 & 2) | CDC NHANES 2017–2018 |
-| `DR1TOT_J.xpt` / `DR2TOT_J.xpt` | Total nutrient intake summaries (Days 1 & 2) | CDC NHANES 2017–2018 |
+| `DR1IFF_J.xpt` / `DR2IFF_J.xpt` | Individual foods — 24-hour dietary recalls (Days 1 & 2) | CDC NHANES 2017–2018 *(auto-downloaded)* |
+| `DR1TOT_J.xpt` / `DR2TOT_J.xpt` | Total nutrient intake summaries (Days 1 & 2) | CDC NHANES 2017–2018 *(auto-downloaded)* |
 | `DEMO_J.xpt` | Demographics (age, sex, income, ethnicity) | CDC NHANES 2017–2018 |
 | `BPX_J.xpt` | Blood pressure measurements | CDC NHANES 2017–2018 |
 | `TCHOL_J.xpt` / `HDL_J.xpt` / `TRIGLY_J.xpt` | Serum lipids | CDC NHANES 2017–2018 |
 | `BMX_J.xpt` | Body measurements (BMI, waist circumference) | CDC NHANES 2017–2018 |
 | `2017-2018 FNDDS At A Glance - Foods and Beverages.xlsx` | Food classification lookup (dairy / fermented dairy flags) | USDA FNDDS 2017–2018 |
 
-NHANES data files must be downloaded separately from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017) and placed in `data/raw/`. They are excluded from this repository.
+The four dietary XPT files (`DR1IFF_J`, `DR2IFF_J`, `DR1TOT_J`, `DR2TOT_J`) are **downloaded automatically** by `01_dietary_data_preparation.ipynb` from the CDC public server on first run. The remaining files must be downloaded manually from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017) and placed in `data/raw/`. All data files are excluded from this repository.
 
 ---
 
@@ -48,16 +48,19 @@ NHANES data files must be downloaded separately from the [CDC NHANES 2017–2018
 
 ### `notebooks/01_dietary_data_preparation.ipynb` — Dietary data preparation
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/01_dietary_data_preparation.ipynb)
+
 The main analytical notebook for the fermented dairy project. Processes the two 24-hour dietary recall files to produce a participant-level dataset of average daily dairy and fermented dairy intake.
 
 **Steps:**
 
-1. Load the FNDDS food classification lookup (Excel) to identify dairy and fermented dairy food codes.
-2. Load the NHANES individual foods files and classify each reported food item.
-3. Aggregate dairy gram weights per participant per recall day.
-4. Load and average the total nutrient intake files across two recall days.
-5. Merge dairy exposure variables into the nutrient dataset.
-6. Save `data/processed/nhanes_dietary_avg.csv` for use in subsequent analyses.
+1. Download the four dietary XPT files from the CDC server (skipped automatically if already present).
+2. Load the FNDDS food classification lookup (Excel) to identify dairy and fermented dairy food codes.
+3. Load the NHANES individual foods files and classify each reported food item.
+4. Aggregate dairy gram weights per participant per recall day.
+5. Load and average the total nutrient intake files across two recall days.
+6. Merge dairy exposure variables into the nutrient dataset.
+7. Save `data/processed/nhanes_dietary_avg.csv` for use in subsequent analyses.
 
 **Output:** `data/processed/nhanes_dietary_avg.csv`
 One row per participant, containing average daily nutrient intakes and the two key exposure variables:
@@ -75,7 +78,6 @@ One row per participant, containing average daily nutrient intakes and the two k
 
 - Python 3.10+ (managed via pyenv or your system Python)
 - Git
-- NHANES XPT files downloaded to `data/raw/` (see Data sources above)
 
 ### Setup
 
@@ -96,7 +98,7 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Open `notebooks/01_dietary_data_preparation.ipynb`.
+Open `notebooks/01_dietary_data_preparation.ipynb`. The notebook will download the four dietary XPT files automatically on first run.
 
 ---
 

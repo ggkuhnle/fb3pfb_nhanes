@@ -12,18 +12,20 @@ A project analysing NHANES 2017–2018 data in Python/Jupyter, investigating the
 
 **`notebooks/01_dietary_data_preparation.ipynb`** — processes the two 24-hour dietary recall files to produce a participant-level dataset of average daily dairy and fermented dairy intake. Covers food classification, aggregation, merging with nutrient totals, and export of the analytical dataset.
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ggkuhnle/fb3pfb_nhanes/blob/main/notebooks/01_dietary_data_preparation.ipynb)
+
 ---
 
 ## Data
 
-NHANES data files are **not included in this repository**. Download the required XPT files from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017) and place them in `data/raw/`.
+NHANES data files are **not included in this repository**.
 
-Required files:
+**The four dietary XPT files are downloaded automatically** by `01_dietary_data_preparation.ipynb` from the CDC public server the first time the notebook is run — no manual download is required for those.
+
+The following files must still be downloaded manually from the [CDC NHANES 2017–2018 page](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017) and placed in `data/raw/`:
 
 | File | Content |
 |------|---------|
-| `DR1IFF_J.xpt` / `DR2IFF_J.xpt` | Individual foods — 24-hour dietary recalls |
-| `DR1TOT_J.xpt` / `DR2TOT_J.xpt` | Total nutrient intake summaries |
 | `DEMO_J.xpt` | Demographics |
 | `BPX_J.xpt` | Blood pressure |
 | `TCHOL_J.xpt` / `HDL_J.xpt` / `TRIGLY_J.xpt` | Serum lipids |
@@ -48,7 +50,7 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Open `notebooks/01_dietary_data_preparation.ipynb`.
+Open `notebooks/01_dietary_data_preparation.ipynb`. The notebook will download the four dietary XPT files automatically on first run.
 
 ---
 
