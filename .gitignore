@@ -1,6 +1,6 @@
 # Data (keep raw/processed out of Git)
-data/raw/
-data/processed/
+# data/raw/
+# data/processed/
 
 # Notebook/Python cruft
 .ipynb_checkpoints/
