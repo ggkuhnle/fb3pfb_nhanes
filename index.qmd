@@ -16,16 +16,6 @@ format:
 
 This project uses the **National Health and Nutrition Examination Survey (NHANES) 2017–2018** to investigate the association between fermented dairy consumption and cardiometabolic health outcomes in US adults.
 
-NHANES is a nationally representative, cross-sectional survey conducted by the US Centers for Disease Control and Prevention (CDC). It combines interview data (diet, demographics, health history) with physical examinations and laboratory measurements, making it one of the richest publicly available nutrition and health datasets.
-
----
-
-## Research question
-
-> Is habitual fermented dairy intake (yogurt, cheese, kefir) associated with favourable cardiometabolic markers — including blood lipids, blood pressure, and adiposity — in US adults?
-
-Fermented dairy products differ from non-fermented dairy in their content of live cultures, bioactive peptides, and short-chain fatty acids generated during fermentation. These components may plausibly influence cardiometabolic risk pathways, but the epidemiological evidence remains mixed. This project aims to describe the association using observational data, while acknowledging the limitations inherent in a cross-sectional design.
-
 ---
 
 ## Data sources
@@ -100,17 +90,6 @@ jupyter lab
 
 Open `notebooks/01_dietary_data_preparation.ipynb`. The notebook will download the four dietary XPT files automatically on first run.
 
----
-
-## Important caveats
-
-**Cross-sectional design:** NHANES 2017–2018 is a snapshot in time. We can describe associations but cannot establish causality or the direction of effect.
-
-**Dietary recall limitations:** 24-hour recalls capture what a person ate on one or two specific days, which may not reflect habitual intake. Two-day averaging reduces but does not eliminate within-person variability.
-
-**Survey design:** For population-level inference, NHANES requires survey-weighted analyses accounting for sampling strata, primary sampling units (PSUs), and interview weights. The analyses in this project are **unweighted** and should be interpreted as exploratory.
-
-**Confounding:** Observed associations between fermented dairy intake and cardiometabolic markers may reflect confounding by overall diet quality, socioeconomic status, or other lifestyle factors.
 
 ---
 
