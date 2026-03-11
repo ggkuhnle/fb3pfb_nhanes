@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: _site
+
+execute:
+  enabled: false   # render using pre-computed cell outputs; data files are not available in CI
+
+website:
+  title: "FB3PFB — NHANES Analysis"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: notebooks/00_load_nhanes.ipynb
+        text: Starter Notebook
+      - href: analysis/01_dietary_data_preparation.ipynb
+        text: Dietary Data Preparation
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    number-sections: true

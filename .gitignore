@@ -11,3 +11,9 @@ __pycache__/
 
 # Python
 venv
+
+# Quarto build output
+_site/
+
+# Claude
+.claude

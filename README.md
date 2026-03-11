@@ -6,7 +6,10 @@
 
 ---
 
-A step-by-step starter for analysing NHANES in **Google Colab** (no installs) or locally (VS Code/Jupyter). The main notebook fetches DEMO_J, HDL_J, TRIGLY_J directly from the CDC, merges, and walks through summaries, plots, a Welch t-test, and a tiny OLS model.
+A step-by-step starter for analysing NHANES 2017–2018 data in **Google Colab** (no installs) or locally (VS Code/Jupyter). The project includes two analysis tracks:
+
+1. **Starter notebook** (`notebooks/00_load_nhanes.ipynb`) — fetches `DEMO_J`, `HDL_J`, `TRIGLY_J` directly from the CDC, merges them, and walks through summaries, plots, a Welch t-test, and a simple OLS model.
+2. **Fermented dairy analysis** (`analysis/01_dietary_data_preparation.ipynb`) — prepares dietary exposure data (24-hour recalls) to investigate the association between fermented dairy intake and cardiometabolic health outcomes.
 
 ---
 
@@ -102,12 +105,31 @@ git push -u origin feat/analysis-step1
 - Merge when approved
 ---
 
+## 📁 Project structure
+
+```
+fb3pfb_nhanes/
+├── notebooks/
+│   └── 00_load_nhanes.ipynb          # Starter: CDC download, summaries, t-test, OLS
+├── analysis/
+│   └── 01_dietary_data_preparation.ipynb  # Fermented dairy: dietary recall processing
+├── data/
+│   ├── raw/                          # NHANES XPT files (not git-tracked)
+│   └── processed/
+│       ├── 2017-2018 FNDDS At A Glance - Foods and Beverages.xlsx
+│       └── nhanes_dietary_avg.csv    # Output of notebook 01 (not git-tracked)
+├── src/                              # Utility modules
+├── requirements.txt
+└── README.md
+```
+
 ## 📁 Data layout and policy
 
-- The notebook **downloads public NHANES** files (e.g., `DEMO_J.XPT`, `HDL_J.XPT`, `TRIGLY_J.XPT`) at runtime.  
+- The starter notebook **downloads public NHANES** files (e.g., `DEMO_J.XPT`, `HDL_J.XPT`, `TRIGLY_J.XPT`) at runtime.
   No Google Drive and no Git LFS required to run.
-- **Raw downloads** live in: `data/raw/`  
-- **Outputs** should go in: `data/processed/`  
+- The fermented dairy analysis uses locally stored XPT files in `data/raw/` (downloaded separately from the [CDC NHANES website](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017)).
+- **Raw downloads** live in: `data/raw/`
+- **Outputs** should go in: `data/processed/`
 - Keep large/derived files **out of Git** (already in `.gitignore`).
 
 
