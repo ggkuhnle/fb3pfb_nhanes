@@ -1,5 +1,5 @@
 # Data (keep raw/processed out of Git)
-# data/raw/
+data/raw/
 # data/processed/
 
 # Notebook/Python cruft
