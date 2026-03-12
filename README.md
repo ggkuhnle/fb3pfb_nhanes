@@ -6,6 +6,8 @@
 
 A project analysing NHANES 2017–2018 data , investigating the association between fermented dairy intake and cardiometabolic health outcomes.
 
+Please go to: [https://ggkuhnle.github.io/fb3pfb_nhanes/] for more information.
+
 ---
 
 ## Analysis notebook
