@@ -62,8 +62,7 @@ fb3pfb_nhanes/
 │   └── 01_dietary_data_preparation.ipynb  # Main analysis notebook
 ├── data/
 │   ├── raw/        # NHANES XPT files (not git-tracked — download separately)
-│   └── processed/  # Outputs and lookup files (not git-tracked)
-├── src/            # Utility modules
+│   └── processed/  # Outputs and lookup files
 ├── requirements.txt
 └── README.md
 ```
